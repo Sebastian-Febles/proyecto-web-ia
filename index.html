@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registro de la Ciudadela | Personajes de Rick and Morty</title>
+  <meta name="description" content="Registro interactivo de personajes de Rick and Morty: busca, filtra, guarda favoritos y compara dos personajes con datos en vivo de la API.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='44' fill='%2312263a'/%3E%3Ccircle cx='50' cy='50' r='30' fill='none' stroke='%2317b890' stroke-width='10'/%3E%3Ccircle cx='50' cy='50' r='12' fill='%23ffd000'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="barra">
+    <a class="marca" href="#catalogo" aria-label="Registro de la Ciudadela, ir al catálogo">
+      <span class="marca__anillo" aria-hidden="true"></span>
+      <span class="marca__texto">Registro de la Ciudadela</span>
+    </a>
+    <nav class="nav" aria-label="Secciones">
+      <a class="nav__enlace" href="#catalogo" data-vista="catalogo">Catálogo</a>
+      <a class="nav__enlace" href="#favoritos" data-vista="favoritos">
+        Favoritos <span class="contador" id="cuentaFav">0</span>
+      </a>
+      <a class="nav__enlace" href="#comparar" data-vista="comparar">
+        Comparar <span class="contador" id="cuentaCmp">0/2</span>
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="vista-catalogo" class="vista" aria-labelledby="tituloCatalogo">
+      <div class="intro">
+        <h1 id="tituloCatalogo" class="intro__titulo">Quién es quién en el multiverso</h1>
+        <p class="intro__texto">
+          Cada ficha se consulta en vivo a la API de Rick and Morty. Filtra a la izquierda, guarda a tus favoritos y pon a dos personajes frente a frente.
+        </p>
+        <p class="intro__total"><strong id="totalGlobal">…</strong> personajes registrados</p>
+      </div>
+
+      <button type="button" class="boton boton--filtros" id="alternarFiltros" aria-expanded="false" aria-controls="lateral">
+        Mostrar filtros
+      </button>
+
+      <div class="catalogo">
+        <aside class="lateral" id="lateral" aria-label="Búsqueda y filtros">
+          <form id="formFiltros" autocomplete="off" role="search">
+            <label class="campo" for="buscador">Nombre del personaje</label>
+            <input class="entrada" type="search" id="buscador" placeholder="Por ejemplo: Birdperson" maxlength="40">
+
+            <div class="historial" id="historial" hidden>
+              <div class="historial__cabecera">
+                <span>Búsquedas recientes</span>
+                <button type="button" class="enlace-boton" id="borrarHistorial">Borrar</button>
+              </div>
+              <div class="historial__chips" id="historialChips"></div>
+            </div>
+
+            <fieldset class="grupo">
+              <legend class="campo">Estado</legend>
+              <div class="pildoras">
+                <label class="pildora"><input type="radio" name="estado" value="" checked><span>Todos</span></label>
+                <label class="pildora"><input type="radio" name="estado" value="alive"><span>Vivo</span></label>
+                <label class="pildora"><input type="radio" name="estado" value="dead"><span>Muerto</span></label>
+                <label class="pildora"><input type="radio" name="estado" value="unknown"><span>Desconocido</span></label>
+              </div>
+            </fieldset>
+
+            <label class="campo" for="filtroGenero">Género</label>
+            <select class="entrada" id="filtroGenero">
+              <option value="">Cualquiera</option>
+              <option value="male">Masculino</option>
+              <option value="female">Femenino</option>
+              <option value="genderless">Sin género</option>
+              <option value="unknown">Desconocido</option>
+            </select>
+
+            <label class="campo" for="filtroEspecie">Especie</label>
+            <select class="entrada" id="filtroEspecie">
+              <option value="">Cualquiera</option>
+              <option value="Human">Humano</option>
+              <option value="Alien">Alienígena</option>
+              <option value="Humanoid">Humanoide</option>
+              <option value="Robot">Robot</option>
+              <option value="Animal">Animal</option>
+              <option value="Cronenberg">Cronenberg</option>
+              <option value="Mythological Creature">Criatura mitológica</option>
+              <option value="Disease">Enfermedad</option>
+              <option value="Poopybutthole">Poopybutthole</option>
+            </select>
+
+            <label class="campo" for="orden">Ordenar los resultados cargados</label>
+            <select class="entrada" id="orden">
+              <option value="original">Orden de la API</option>
+              <option value="az">Nombre de la A a la Z</option>
+              <option value="za">Nombre de la Z a la A</option>
+              <option value="apariciones">Más apariciones primero</option>
+            </select>
+
+            <button type="button" class="boton boton--borde" id="limpiar">Quitar todos los filtros</button>
+          </form>
+        </aside>
+
+        <div class="resultados">
+          <div class="stats" id="stats" aria-live="polite"></div>
+          <div id="mensaje" class="mensaje" role="status" hidden></div>
+          <div id="lista" class="lista" aria-live="polite"></div>
+          <div class="mas">
+            <button type="button" class="boton boton--primario" id="cargarMas" hidden>Cargar 20 personajes más</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="vista-favoritos" class="vista" aria-labelledby="tituloFav" hidden>
+      <div class="vista__cabecera">
+        <h2 id="tituloFav" class="vista__titulo">Tus favoritos</h2>
+        <button type="button" class="boton boton--borde" id="vaciarFav">Vaciar favoritos</button>
+      </div>
+      <div id="mensajeFav" class="mensaje" hidden></div>
+      <div id="listaFav" class="lista lista--ancha"></div>
+    </section>
+
+    <section id="vista-comparar" class="vista" aria-labelledby="tituloCmp" hidden>
+      <div class="vista__cabecera">
+        <h2 id="tituloCmp" class="vista__titulo">Cara a cara</h2>
+        <button type="button" class="boton boton--borde" id="vaciarCmp">Empezar de nuevo</button>
+      </div>
+      <div id="mensajeCmp" class="mensaje" hidden></div>
+      <div id="zonaComparar"></div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>Hecho con HTML, CSS y JavaScript. Datos de <a href="https://rickandmortyapi.com" target="_blank" rel="noopener">The Rick and Morty API</a>.</p>
+  </footer>
+
+  <div id="aviso" class="aviso" role="status" aria-live="polite"></div>
+  <noscript><p class="sin-js">Esta aplicación necesita JavaScript para consultar la API.</p></noscript>
+
+  <script src="script.js"></script>
+</body>
+</html>
