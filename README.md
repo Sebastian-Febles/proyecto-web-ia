@@ -5,14 +5,6 @@ Aplicación web que consulta personajes de [The Rick and Morty API](https://rick
 - **Aplicación publicada:** https://sebastian-febles.github.io/proyecto-web-ia/
 - **Repositorio:** https://github.com/Sebastian-Febles/proyecto-web-ia
 
-## Integrantes
-
-| Integrante | Contribución principal |
-|---|---|
-| Sebastian Febles Magaña | Lógica en JavaScript: fetch, filtros, favoritos, comparador e historial |
-| Ana Gómez | Diseño responsive y estilo visual |
-| Luis Pérez | Validación UX y documentación final |
-
 ## Descripción
 
 Cada página de resultados trae 20 personajes con foto y ficha: estado, especie, género, origen, última ubicación, número de apariciones y la primera aparición (nombre y código del episodio, obtenidos con una segunda consulta a `/episode`). La foto va dentro de un anillo cuyo color cambia según el estado del personaje (verde vivo, rojo muerto, gris desconocido).
