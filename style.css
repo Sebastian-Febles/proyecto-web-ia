@@ -364,7 +364,7 @@ a { color: inherit; }
 @media (max-width: 480px) {
   .ficha { grid-template-columns: 5rem minmax(0, 1fr); gap: .8rem; padding: .8rem; }
   .ficha__foto { width: 5rem; height: 5rem; padding: 4px; }
-  .versus__tabla th, .versus__tabla td { padding: .55rem .5rem; font-size: .85rem; }
+  .versus__tabla th, .versus__tabla td { padding: .65rem .5rem; font-size: .92rem; }
   .ficha__foto--grande { width: 6rem; height: 6rem; }
 }
 
