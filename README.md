@@ -41,6 +41,13 @@ Cada página de resultados trae 20 personajes con foto y ficha: estado, especie,
 6. Pulsa **Guardar** en una ficha y revísala en la pestaña **Favoritos**.
 7. Pulsa **Comparar** en dos fichas y abre la pestaña **Comparar**: las diferencias quedan resaltadas.
 
+## Si algo falla
+
+- **Aparece "No pudimos conectar con la API":** revisa tu conexión a internet y pulsa **Reintentar**. Si sigue igual, recarga la página.
+- **Aparece "No encontramos a nadie con esos datos":** no es un error; ningún personaje coincide. Pulsa **Quitar filtros** o revisa la ortografía.
+- **Los favoritos no se guardan:** el navegador pudo bloquear el almacenamiento local (modo privado). Prueba en una ventana normal.
+- **Los cambios no se ven en GitHub Pages:** espera 1 o 2 minutos y recarga con Ctrl + F5.
+
 ## Estructura
 
 ```text
